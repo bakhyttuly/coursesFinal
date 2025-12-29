@@ -18,7 +18,6 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // For study projects only.
         return NoOpPasswordEncoder.getInstance();
     }
 
@@ -34,7 +33,6 @@ public class SecurityConfig {
                         "/css/**", "/js/**", "/images/**"
                 ).permitAll()
 
-                // ADMIN
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/users").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority("ROLE_ADMIN")
@@ -42,17 +40,14 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/courses/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/courses/**").hasAuthority("ROLE_ADMIN")
 
-                // INSTRUCTOR
                 .requestMatchers("/instructor/**").hasAuthority("ROLE_INSTRUCTOR")
                 .requestMatchers(HttpMethod.POST, "/api/lessons/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_INSTRUCTOR")
                 .requestMatchers(HttpMethod.PUT, "/api/lessons/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_INSTRUCTOR")
                 .requestMatchers(HttpMethod.DELETE, "/api/lessons/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_INSTRUCTOR")
 
-                // STUDENT
                 .requestMatchers("/my-courses/**").hasAuthority("ROLE_STUDENT")
                 .requestMatchers("/api/enrollments/**").hasAuthority("ROLE_STUDENT")
 
-                // AUTH
                 .requestMatchers("/profile").authenticated()
 
                 .anyRequest().authenticated()

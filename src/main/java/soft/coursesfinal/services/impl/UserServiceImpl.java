@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserService {
             if (defaultRole != null) roles.add(defaultRole);
             user.setRoles(roles);
 
-            // For study projects only. Use encoder in real apps.
             user.setPassword(request.getPassword());
 
             return userMapper.toResponseDTO(userRepository.save(user));

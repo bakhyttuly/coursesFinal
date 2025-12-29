@@ -7,7 +7,6 @@
 
     <changeSet id="2" author="assistant">
 
-        <!-- ROLES -->
         <insert tableName="t_permissions">
             <column name="id" valueNumeric="1"/>
             <column name="permission" value="ROLE_ADMIN"/>
@@ -21,7 +20,6 @@
             <column name="permission" value="ROLE_STUDENT"/>
         </insert>
 
-        <!-- USERS (password: 1234) -->
         <insert tableName="t_users">
             <column name="id" valueNumeric="1"/>
             <column name="email" value="admin@courses.kz"/>
@@ -41,7 +39,6 @@
             <column name="full_name" value="Student One"/>
         </insert>
 
-        <!-- USER ROLES -->
         <insert tableName="t_users_roles">
             <column name="user_id" valueNumeric="1"/>
             <column name="roles_id" valueNumeric="1"/>
@@ -55,7 +52,6 @@
             <column name="roles_id" valueNumeric="3"/>
         </insert>
 
-        <!-- COURSES -->
         <insert tableName="t_courses">
             <column name="id" valueNumeric="1"/>
             <column name="name" value="Java Basics"/>
@@ -74,7 +70,6 @@
             <column name="instructor_id" valueNumeric="2"/>
         </insert>
 
-        <!-- LESSONS -->
         <insert tableName="t_lessons">
             <column name="id" valueNumeric="1"/>
             <column name="course_id" valueNumeric="1"/>
@@ -109,7 +104,6 @@
             <column name="lesson_order" valueNumeric="2"/>
         </insert>
 
-        <!-- ENROLLMENTS -->
         <insert tableName="t_enrollments">
             <column name="id" valueNumeric="1"/>
             <column name="user_id" valueNumeric="3"/>

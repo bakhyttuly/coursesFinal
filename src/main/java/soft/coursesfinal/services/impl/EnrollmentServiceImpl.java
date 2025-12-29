@@ -44,7 +44,6 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         }
         if (userId == null) return null;
 
-        // prevent duplicates
         Enrollment existing = enrollmentRepository.findByUserIdAndCourseId(userId, request.getCourseId());
         if (existing != null) {
             return enrollmentMapper.toResponseDTO(existing);

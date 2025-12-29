@@ -26,18 +26,13 @@ public class WebActionController {
     private final LessonService lessonService;
     private final EnrollmentService enrollmentService;
 
-    /**
-     * Register from a classic HTML <form> (application/x-www-form-urlencoded).
-     */
     @PostMapping(value = "/users/register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String registerFromForm(@ModelAttribute UserRequestDTO dto) {
         userService.register(dto);
         return "redirect:/login?success";
     }
 
-    /**
-     * Create course from admin form.
-     */
+
     @PostMapping(value = "/courses", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String createCourseFromForm(@ModelAttribute CourseRequestDTO dto) {
@@ -45,9 +40,6 @@ public class WebActionController {
         return "redirect:/admin/courses?success";
     }
 
-    /**
-     * Create lesson from instructor form.
-     */
     @PostMapping(value = "/lessons", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_INSTRUCTOR')")
     public String createLessonFromForm(@ModelAttribute LessonRequestDTO dto) {
@@ -55,9 +47,7 @@ public class WebActionController {
         return "redirect:/instructor-panel?success";
     }
 
-    /**
-     * Enroll from student form.
-     */
+
     @PostMapping(value = "/enrollments/enroll", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @PreAuthorize("hasAuthority('ROLE_STUDENT')")
     public String enrollFromForm(@ModelAttribute EnrollmentRequestDTO dto) {

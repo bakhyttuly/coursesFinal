@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class EnrollmentRequestDTO {
-    // optional: if not provided, service can use current authenticated user
     private Long userId;
     private Long courseId;
     private String enrollmentDate;
