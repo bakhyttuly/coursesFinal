@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${course != null ? course.name : 'Course'}">Course</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+</head>
+<body class="bg-light">
+<div th:replace="~{navbar :: header}"></div>
+
+<div class="container">
+  <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" th:if="${course != null}">
+    <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+      <div>
+        <h2 class="fw-bold mb-1" th:text="${course.name}"></h2>
+        <div class="text-muted" th:text="${course.description}"></div>
+        <div class="mt-2 small text-muted">
+          <i class="bi bi-person-video3 me-1"></i>
+          <span th:text="${course.instructor != null ? course.instructor.fullName : '—'}"></span>
+          <span class="mx-2">•</span>
+          <span class="badge bg-primary-subtle text-primary" th:text="${course.level}"></span>
+        </div>
+      </div>
+
+      <div class="text-end">
+        <div class="display-6 fw-bold" th:text="${course.price} + ' ₸'"></div>
+
+        <div sec:authorize="hasAuthority('ROLE_STUDENT')" class="mt-2">
+          <form th:action="@{'/api/enrollments/enroll'}" method="post">
+            <input type="hidden" name="courseId" th:value="${course.id}">
+            <input type="hidden" name="status" value="ACTIVE">
+            <button class="btn btn-success rounded-pill px-4">
+              <i class="bi bi-bookmark-plus me-1"></i>Enroll
+            </button>
+          </form>
+        </div>
+
+        <div sec:authorize="isAnonymous()" class="mt-2">
+          <a class="btn btn-outline-primary rounded-pill" href="/login">Login to enroll</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm rounded-4">
+    <div class="card-header bg-white border-0 p-4">
+      <h4 class="fw-bold mb-0"><i class="bi bi-list-check me-2"></i>Lessons</h4>
+      <div class="text-muted small">List of lessons in this course.</div>
+    </div>
+    <div class="card-body p-0">
+      <div th:if="${#lists.isEmpty(lessons)}" class="p-4 text-muted">
+        No lessons yet.
+      </div>
+
+      <div th:each="l : ${lessons}" class="border-top p-4">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="fw-bold" th:text="${l.lessonOrder} + '. ' + ${l.title}"></div>
+            <div class="text-muted small" th:text="${l.content}"></div>
+          </div>
+          <a th:if="${l.videoUrl != null and !#strings.isEmpty(l.videoUrl)}" th:href="${l.videoUrl}" target="_blank" class="btn btn-outline-secondary btn-sm rounded-pill">
+            <i class="bi bi-play-circle me-1"></i>Video
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
